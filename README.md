@@ -1,6 +1,12 @@
 # input-method
 Two character input method.
 
+## How to use
+- train tokenizer
+```bash
+python3 src/input_method/train_tokenizer.py --data_name "shakespeare"
+```
+
 
 ## LLM-based Two Characters Input Method
 
@@ -15,16 +21,15 @@ Input: A twchinme
 
 Stripped input: A tw ch in me
 
-Tokenized input: 203 40 23 10 3
+TwoCharTokezer encode: 203 40 23 10 3
 
 Model output: 100 23 40 19 3
-Decoded output: A two characters input method
-
+BPETokenizer Decode: A two characters input method
 
 ### Create Dataset
 Text: A two characters input method
 Input: A tw ch in me
-Input tokenized: SimpleTokenizer("A tw ch in me")
+Input tokenized: TwoCharTokenizer("A tw ch in me")
 Output: A two characters input method
 Output tokenized: BPETokenizer("A two characters input method")
 

@@ -18,6 +18,7 @@ class GPTConfig:
 
 class NanoLM(nn.Module):
     """NanoLM model."""
+
     input_vocab_size: int = 26 + 26 * 26
     output_vocab_size: int = 50304
     num_layers: int = 4

@@ -5,6 +5,7 @@
 #   pre: false
 #   features: []
 #   all-features: false
+#   with-sources: false
 
 -e file:.
 absl-py==2.1.0
@@ -44,6 +45,7 @@ python-dateutil==2.9.0.post0
 pyyaml==6.0.1
 requests==2.31.0
 rich==13.7.1
+ruff==0.4.4
 scipy==1.13.0
 six==1.16.0
 tensorstore==0.1.59
@@ -53,3 +55,5 @@ tqdm==4.66.4
 typing-extensions==4.11.0
 urllib3==2.2.1
 zipp==3.18.2
+# The following packages are considered to be unsafe in a requirements file:
+pip==24.0

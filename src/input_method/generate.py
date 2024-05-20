@@ -1,20 +1,14 @@
-import tiktoken
 import jax
 from model import NanoLM
-from tokenizers import Tokenizer
 import click
-from utils import (
-    AbstractTokenizer,
-    text_to_token_ids,
-    token_ids_to_text,
-    top_k_generate,
-)
+from tokenizer import TwoCharTokenizer, WordTokenizer
 import pickle
 import json
+import jax.numpy as jnp
 
 
 @click.command()
-@click.option("--data_name", type=str, default="aozora")
+@click.option("--data_name", type=str, default="shakespeare")
 @click.option("--prompt", type=str, default="私は")
 @click.option("--max_new_tokens", type=int, default=60)
 @click.option("--temperature", type=float, default=1.0)
@@ -36,7 +30,8 @@ def main(
         params = pickle.load(f)
 
     model = NanoLM(
-        vocab_size=config["vocab_size"],
+        input_vocab_size=config["input_vocab_size"],
+        output_vocab_size=config["output_vocab_size"],
         num_layers=config["num_layers"],
         num_heads=config["num_heads"],
         head_size=config["head_size"],
@@ -46,27 +41,22 @@ def main(
     )
     key = jax.random.PRNGKey(0)
 
-    if tokenizer_path == "gpt2":
-        tokenizer = AbstractTokenizer(tiktoken.get_encoding(tokenizer_path), "gpt-2")
-    else:
-        tokenizer = AbstractTokenizer(
-            Tokenizer.from_file(tokenizer_path), tokenizer_path
-        )
+    input_tokenizer = TwoCharTokenizer()
+    output_tokenizer = WordTokenizer()
 
-    batch = text_to_token_ids(prompt, tokenizer)
+    text = "My name is Taro. I am a student."
+    encoded_text = jnp.array(input_tokenizer.encode(text)).reshape(1, -1)
+    output = []
+    print(encoded_text)
+    for i in range(encoded_text.shape[1]):
+        print(encoded_text[:, : i + 1])
+        output_token = model.apply(params, encoded_text[:, : i + 1], training=False)
+        top_logits = output_token[:, -1, :]
+        decoded = output_tokenizer.decode(top_logits.argmax(axis=-1).tolist())
+        print(decoded)
+        output.append(decoded)
 
-    key, subkey = jax.random.split(key)
-    token_ids = top_k_generate(
-        model,
-        subkey,
-        params,
-        max_new_tokens,
-        batch,
-        top_k=top_k,
-        temperature=temperature,
-    )
-
-    print("Output:", token_ids_to_text(token_ids, tokenizer))
+    print(output)
 
 
 if __name__ == "__main__":
