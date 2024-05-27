@@ -7,6 +7,7 @@ import click
 from tokenizer import TwoCharTokenizer, WordTokenizer
 import re
 import os
+import time
 
 
 @click.command()
@@ -16,7 +17,7 @@ def main(
     data_name: str,
     block_size: int,
 ):
-    model_path = f"model/{data_name}/block_size_{block_size}"
+    model_path = f"model/{data_name}/{block_size}"
     # load config json
     with open(f"{model_path}/config.json", "r") as f:
         config = json.load(f)
@@ -88,18 +89,7 @@ def main(
         return x
 
     key, subkey = jax.random.split(jax.random.PRNGKey(0))
-    X = get_all(subkey, eval_data[0])
-    Y = get_all(subkey, eval_data[1])
     batch_size = 256
-    test_accuracy = []
-    for i in range(0, X.shape[0] - batch_size, batch_size):
-        x = X[i : i + batch_size].reshape(batch_size, -1)
-        y = Y[i : i + batch_size].reshape(batch_size, -1)
-        acc = get_accuracy(params, x, y)
-        test_accuracy.append(acc)
-
-    test_accuracy = jnp.mean(jnp.array(test_accuracy))
-    print(f"Test accuracy: {test_accuracy}")
 
     X = get_all(subkey, train_data[0])
     Y = get_all(subkey, train_data[1])
@@ -110,7 +100,22 @@ def main(
         acc = get_accuracy(params, x, y)
         train_accuracy.append(acc)
     train_accuracy = jnp.mean(jnp.array(train_accuracy))
-    print(f"Train accuracy: {train_accuracy}")
+    print(f"Train accuracy: {train_accuracy:.3f}")
+
+    X = get_all(subkey, eval_data[0])
+    Y = get_all(subkey, eval_data[1])
+
+    start = time.time()
+    test_accuracy = []
+    for i in range(0, X.shape[0] - batch_size, batch_size):
+        x = X[i : i + batch_size].reshape(batch_size, -1)
+        y = Y[i : i + batch_size].reshape(batch_size, -1)
+        acc = get_accuracy(params, x, y)
+        test_accuracy.append(acc)
+
+    test_accuracy = jnp.mean(jnp.array(test_accuracy))
+    end = time.time()
+    print(f"Test accuracy: {test_accuracy:.3f} ({end - start:.3f} sec)")
 
 
 if __name__ == "__main__":

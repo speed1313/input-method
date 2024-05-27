@@ -6,6 +6,7 @@ import click
 from collections import Counter, defaultdict
 import time
 
+
 def train_ngram_model(input_tokenized_text, output_tokenized_text, n=2):
     ngram_dict = defaultdict(Counter)
     # ngram_dict = {"tw": {"two": 1}, "wo": {"words": 1}}
@@ -106,16 +107,14 @@ def main(ngram: int):
     print(f"Training time: {end-start}")
 
     # n>=3 で過学習している
-    for n in range(1, ngram+1):
+    for n in range(1, ngram + 1):
         print("n:", n)
-        train_accuracy = evaluate_ngram_model(
-            model, train_x, train_y, n
-        )
-        test_accuracy = evaluate_ngram_model(
-            model, eval_x, eval_y, n
-        )
+        train_accuracy = evaluate_ngram_model(model, train_x, train_y, n)
+        start = time.time()
+        test_accuracy = evaluate_ngram_model(model, eval_x, eval_y, n)
+        end = time.time()
         print(f"Train accuracy: {train_accuracy:.3f}")
-        print(f"Test accuracy:  {test_accuracy:.3f}")
+        print(f"Test accuracy:  {test_accuracy:.3f} ({end-start} sec)")
         print()
 
 

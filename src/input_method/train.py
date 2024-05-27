@@ -73,7 +73,7 @@ def main(
 ):
     data_filename = f"data/{data_name}/input.txt"
     model_path = f"model/{data_name}/{block_size}"
-    figure_dir = f"figure/{data_name}"
+    figure_dir = f"figure/{data_name}/{block_size}"
 
     assert (
         embed_size == head_size * num_heads
@@ -272,35 +272,6 @@ def main(
     }
     with open(f"{model_path}/config.json", "w") as f:
         json.dump(config, f)
-
-    @jax.jit
-    def get_all(random_key, data):
-        """Prepares a random batch of training data.
-
-        Args:
-            random_key: A random seed for sampling a batch.
-            data: The complete training dataset.
-
-        Returns:
-            x: Input sequences.
-            y: Target sequences (shifted inputs).
-        """
-        ix = jnp.arange(0, len(data) - block_size + 1).reshape(-1, 1)
-
-        x = dynamic_slice_vmap(data, ix, (block_size,))
-
-        return x
-
-    X = get_all(subkey, eval_data[0])
-    Y = get_all(subkey, eval_data[1])
-    test_accuracy = 0
-    for i in range(len(X), batch_size):
-        x = X[i : i + batch_size]
-        y = Y[i : i + batch_size]
-        acc = get_accuracy(var_params, x, y)
-        print(acc)
-        test_accuracy = (i * test_accuracy + acc) / (i + 1)
-    print(f"Test accuracy: {test_accuracy}")
 
 
 if __name__ == "__main__":

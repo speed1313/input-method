@@ -37,6 +37,23 @@ Training Dataset:
 (SimpleTokenizer("A tw ch in me"), BPETokenizer("A two characters input method")), ...
 
 
+## How to use
+
+
+### N-gram model
+
+- train and evaluate the n-gram model with shakespeare dataset
+```bash
+python3 src/input_method/train-ngram.py 
+```
+
+### Transformer based language modelf
+- train the NanoLM model with shakespeare dataset
+```bash
+python3 src/input_method/train.py --data_name "shakespeare" --batch_size 128 --n_iteration
+s 5000 --n_freq_eval 100 --dropout_rate 0.1 --learning_rate 0.001 --num_layers 8 --embed_size 256  --head_size 32 --num_heads 8 --block_
+size 1
+```
 
 
 
