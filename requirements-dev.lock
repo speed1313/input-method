@@ -5,7 +5,6 @@
 #   pre: false
 #   features: []
 #   all-features: false
-#   with-sources: false
 
 -e file:.
 absl-py==2.1.0
@@ -45,7 +44,7 @@ python-dateutil==2.9.0.post0
 pyyaml==6.0.1
 requests==2.31.0
 rich==13.7.1
-ruff==0.4.4
+ruff==0.4.5
 scipy==1.13.0
 six==1.16.0
 tensorstore==0.1.59

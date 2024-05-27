@@ -11,10 +11,12 @@ import os
 
 @click.command()
 @click.option("--data_name", type=str, default="shakespeare")
+@click.option("--block_size", type=int, default=8)
 def main(
     data_name: str,
+    block_size: int,
 ):
-    model_path = f"model/{data_name}"
+    model_path = f"model/{data_name}/block_size_{block_size}"
     # load config json
     with open(f"{model_path}/config.json", "r") as f:
         config = json.load(f)

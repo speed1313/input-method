@@ -1,4 +1,3 @@
-import jax
 from model import NanoLM
 import click
 from tokenizer import TwoCharTokenizer, WordTokenizer
@@ -9,19 +8,14 @@ import jax.numpy as jnp
 
 @click.command()
 @click.option("--data_name", type=str, default="shakespeare")
-@click.option("--prompt", type=str, default="私は")
-@click.option("--max_new_tokens", type=int, default=60)
-@click.option("--temperature", type=float, default=1.0)
-@click.option("--top_k", type=int, default=25)
+@click.option("--prompt", type=str, default="My name is Taro. I am a student.")
+@click.option("--block_size", type=int, default=8)
 def main(
     data_name: str,
     prompt: str,
-    max_new_tokens: int,
-    temperature: float,
-    top_k: int,
+    block_size: int,
 ):
-    tokenizer_path = f"data/{data_name}/tokenizer.json"
-    model_path = f"model/{data_name}"
+    model_path = f"model/{data_name}/{block_size}"
     # load config json
     with open(f"{model_path}/config.json", "r") as f:
         config = json.load(f)
@@ -39,12 +33,11 @@ def main(
         embed_size=config["embed_size"],
         block_size=config["block_size"],
     )
-    key = jax.random.PRNGKey(0)
 
     input_tokenizer = TwoCharTokenizer()
     output_tokenizer = WordTokenizer()
 
-    text = "My name is Taro. I am a student."
+    text = prompt
     encoded_text = jnp.array(input_tokenizer.encode(text)).reshape(1, -1)
     output = []
     print(encoded_text)

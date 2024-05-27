@@ -72,7 +72,7 @@ def main(
     head_size: int,
 ):
     data_filename = f"data/{data_name}/input.txt"
-    model_path = f"model/{data_name}"
+    model_path = f"model/{data_name}/{block_size}"
     figure_dir = f"figure/{data_name}"
 
     assert (

@@ -11,6 +11,7 @@ class TwoCharTokenizer:
                 vocab[alphabet[i] + alphabet[j]] = len(vocab)
         self.str_to_int = vocab
         self.int_to_str = {i: s for s, i in vocab.items()}
+        self.vocab_size = len(vocab)
 
     def encode(self, text: str):
         text = input_encode(text)
