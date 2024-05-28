@@ -30,7 +30,7 @@ def predict_model(model, prefix):
         return None
 
 
-def evaluate_ngram_model(model, eval_x, eval_y, n=3):
+def evaluate_ngram_model(model, eval_x, eval_y, n, input_tokenizer, output_tokenizer, debug=False):
     test_accuracy = 0
     unk_num = 0
     # n window
@@ -42,6 +42,13 @@ def evaluate_ngram_model(model, eval_x, eval_y, n=3):
         predict = predict_model(model, prefix)
         if predict == eval_y[i]:
             test_accuracy += 1
+        else:
+            if debug:
+                print("prefix:", input_tokenizer.decode(prefix))
+                if predict is not None:
+                    print("predict:", output_tokenizer.decode([predict]), "true:", output_tokenizer.decode([eval_y[i]]))
+                else:
+                    print("predict: <unk>")
         if predict is None:
             unk_num += 1
     test_accuracy /= len(eval_x)
@@ -109,9 +116,9 @@ def main(ngram: int):
     # n>=3 で過学習している
     for n in range(1, ngram + 1):
         print("n:", n)
-        train_accuracy = evaluate_ngram_model(model, train_x, train_y, n)
+        train_accuracy = evaluate_ngram_model(model, train_x, train_y, n, input_tokenizer, output_tokenizer)
         start = time.time()
-        test_accuracy = evaluate_ngram_model(model, eval_x, eval_y, n)
+        test_accuracy = evaluate_ngram_model(model, eval_x, eval_y, n, input_tokenizer, output_tokenizer)
         end = time.time()
         print(f"Train accuracy: {train_accuracy:.3f}")
         print(f"Test accuracy:  {test_accuracy:.3f} ({end-start} sec)")
