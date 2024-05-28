@@ -1,6 +1,6 @@
 # input-method
 Two characters input method using transformer-based language model and n-gram model.
-
+The model predicts the corresponding word (token of words) given the previous and current two characters (token of characters).
 ![two_char_input_method](./figure/two_char_lm.png)
 
 
@@ -54,8 +54,7 @@ This program internally convert the prompt to the two characters input format an
 - Transformer-based language model
 ![transformer](./figure/transformer-based.png)
 
-
-
+2-gram model was the best model among all models.
 
 ## Reference
 - https://github.com/speed1313/jax-llm
