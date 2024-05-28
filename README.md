@@ -1,40 +1,7 @@
 # input-method
-Two character input method.
+Two characters input method using transformer-based language model and n-gram model.
 
-## How to use
-- train tokenizer
-```bash
-python3 src/input_method/train_tokenizer.py --data_name "shakespeare"
-```
-
-
-## LLM-based Two Characters Input Method
-
-- Strip only the first two characters from the input string
-- Tokenize the input string
-- Predict the whole string using the LLM
-
-
-inputのtokenと, outputのtokenが異なる.
-
-Input: A twchinme
-
-Stripped input: A tw ch in me
-
-TwoCharTokezer encode: 203 40 23 10 3
-
-Model output: 100 23 40 19 3
-BPETokenizer Decode: A two characters input method
-
-### Create Dataset
-Text: A two characters input method
-Input: A tw ch in me
-Input tokenized: TwoCharTokenizer("A tw ch in me")
-Output: A two characters input method
-Output tokenized: BPETokenizer("A two characters input method")
-
-Training Dataset:
-(SimpleTokenizer("A tw ch in me"), BPETokenizer("A two characters input method")), ...
+![two_char_input_method](./figure/two_char_lm.png)
 
 
 ## How to use
@@ -44,21 +11,43 @@ Training Dataset:
 
 - train and evaluate the n-gram model with shakespeare dataset
 ```bash
-python3 src/input_method/train-ngram.py 
+python3 src/input_method/train-ngram.py
 ```
 
-### Transformer based language modelf
+### Transformer-based language model
 - train the NanoLM model with shakespeare dataset
 ```bash
 python3 src/input_method/train.py --data_name "shakespeare" --batch_size 128 --n_iteration
-s 5000 --n_freq_eval 100 --dropout_rate 0.1 --learning_rate 0.001 --num_layers 8 --embed_size 256  --head_size 32 --num_heads 8 --block_
+s 5000 --n_freq_eval 100 --dropout_rate 0.1 --learning_rate 0.001 --num_layers 8 --embed_size 256  --head_size 32 --num_heads 8 --block_size 4
 size 1
+```
+
+- evaluate the NanoLM model with shakespeare dataset
+```bash
+python3 src/input_method/evaluate.py --data_name "shakespeare" --batch_size 4
 ```
 
 
 
-## Point
-- Two tokenizer is needed
-  - One for input: This tokenizer is simple one(one character and two character tokenization. the number of tokens is 26+26*26=702)
-  - One for output: We use BPE tokenizer for output tokenization. The number of tokens is 50304.
-- P(characters | a tw ch)
+
+## Features
+- Two tokenizer is used
+  - TwoCharTokenizer: vocab = {"a ", ..., "z ", "aa", ..., "zz"}
+      - The vocab size is 26 + 26 + 26^2 = 702
+  - WordTokenizer: vocab = {"a", ..., "word", ...}
+    - The vocab size depends on the dataset
+- Predict the corresponding word given the previous and current two characters (e.g., P("method" | ("a ", "tw", "ch", "in", "me"))) using the transformer-based language model
+
+## Results
+
+- N-gram model
+![n-gram](./figure/n-gram.png)
+
+- Transformer-based language model
+![transformer](./figure/transformer-based.png)
+
+
+
+
+## Reference
+- https://github.com/speed1313/jax-llm
