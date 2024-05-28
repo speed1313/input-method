@@ -31,7 +31,7 @@ python3 src/input_method/evaluate.py --data_name "shakespeare" --batch_size 4
 
 
 ## Features
-- Two tokenizer is used
+- Two tokenizers are used
   - TwoCharTokenizer: vocab = {"a ", ..., "z ", "aa", ..., "zz"}
       - The vocab size is 26 + 26 * 26 = 702
   - WordTokenizer: vocab = {"a", ..., "word", ...}
