@@ -33,7 +33,7 @@ python3 src/input_method/evaluate.py --data_name "shakespeare" --batch_size 4
 ## Features
 - Two tokenizer is used
   - TwoCharTokenizer: vocab = {"a ", ..., "z ", "aa", ..., "zz"}
-      - The vocab size is 26 + 26 + 26^2 = 702
+      - The vocab size is 26 + 26 * 26 = 702
   - WordTokenizer: vocab = {"a", ..., "word", ...}
     - The vocab size depends on the dataset
 - Predict the corresponding word given the previous and current two characters (e.g., P("method" | ("a ", "tw", "ch", "in", "me"))) using the transformer-based language model
