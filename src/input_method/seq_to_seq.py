@@ -9,7 +9,7 @@ import jax.numpy as jnp
 @click.command()
 @click.option("--data_name", type=str, default="shakespeare")
 @click.option("--prompt", type=str, default="My name is Taro. I am a student.")
-@click.option("--block_size", type=int, default=8)
+@click.option("--block_size", type=int, default=16)
 def main(
     data_name: str,
     prompt: str,
@@ -40,16 +40,14 @@ def main(
     text = prompt
     encoded_text = jnp.array(input_tokenizer.encode(text)).reshape(1, -1)
     output = []
-    print(encoded_text)
     for i in range(encoded_text.shape[1]):
-        print(encoded_text[:, : i + 1])
         output_token = model.apply(params, encoded_text[:, : i + 1], training=False)
         top_logits = output_token[:, -1, :]
         decoded = output_tokenizer.decode(top_logits.argmax(axis=-1).tolist())
-        print(decoded)
         output.append(decoded)
 
-    print(output)
+    print("Prompt:", text)
+    print("Output:", " ".join(output))
 
 
 if __name__ == "__main__":

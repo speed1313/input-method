@@ -11,20 +11,29 @@ Two characters input method using transformer-based language model and n-gram mo
 
 - train and evaluate the n-gram model with shakespeare dataset
 ```bash
-python3 src/input_method/train-ngram.py
+$ python3 src/input_method/train-ngram.py
 ```
 
 ### Transformer-based language model
-- train the NanoLM model with shakespeare dataset
+- Train the NanoLM model with shakespeare dataset
 ```bash
-python3 src/input_method/train.py --data_name "shakespeare" --batch_size 128 --n_iteration
+$ python3 src/input_method/train.py --data_name "shakespeare" --batch_size 128 --n_iteration
 s 5000 --n_freq_eval 100 --dropout_rate 0.1 --learning_rate 0.001 --num_layers 8 --embed_size 256  --head_size 32 --num_heads 8 --block_size 4
 ```
 
-- evaluate the NanoLM model with shakespeare dataset
+- Evaluate the NanoLM model with shakespeare dataset
 ```bash
-python3 src/input_method/evaluate.py --data_name "shakespeare" --block_size 4
+$ python3 src/input_method/evaluate.py --data_name "shakespeare" --block_size 4
 ```
+
+- Sequence to sequence prediction
+```bash
+$ python3 src/input_method/seq_to_seq.py --data_name "shakespeare" --block_size 16 --input "My name is Taro. I am a student."
+
+Prompt: My name is Taro. I am a student.
+Output: my name is taken i am a strange
+```
+This program internally convert the prompt to the two characters input format and predict the corresponding word using the trained NanoLM model sequentially.
 
 
 
