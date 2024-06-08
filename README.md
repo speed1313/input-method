@@ -57,4 +57,5 @@ This program internally convert the prompt to the first-two-char input format an
 2-gram model was the best model among all models.
 
 ## Reference
+- https://ocw.mit.edu/ans7870/6/6.006/s08/lecturenotes/files/t8.shakespeare.txt
 - https://github.com/speed1313/jax-llm
