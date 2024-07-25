@@ -1,5 +1,5 @@
 # input-method
-Two characters input method using transformer-based language model and n-gram model.
+First-two-char input method using transformer-based language model and n-gram model.
 The model predicts the corresponding word ("method") given the previous and current two characters ("a ", "tw", "ch", "in", "me").
 ![two_char_input_method](./figure/two_char_lm_overview.png)
 
@@ -33,7 +33,7 @@ $ python3 src/input_method/seq_to_seq.py --data_name "shakespeare" --block_size 
 Prompt: My name is Taro. I am a student.
 Output: my name is taken i am a strange
 ```
-This program internally convert the prompt to the two characters input format and predict the corresponding word using the trained NanoLM model sequentially.
+This program internally convert the prompt to the first-two-char input format and predict the corresponding word using the trained NanoLM model sequentially.
 
 
 
@@ -57,4 +57,5 @@ This program internally convert the prompt to the two characters input format an
 2-gram model was the best model among all models.
 
 ## Reference
+- https://ocw.mit.edu/ans7870/6/6.006/s08/lecturenotes/files/t8.shakespeare.txt
 - https://github.com/speed1313/jax-llm
