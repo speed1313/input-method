@@ -1,6 +1,6 @@
 # input-method
 First-two-char input method using transformer-based language model and n-gram model.
-The model predicts the corresponding word ("method") given the previous and current two characters ("a ", "tw", "ch", "in", "me").
+The model predicts the corresponding word ("method") given the previous and current two characters ("fi", "tw", "ch", "in", "me").
 
 <img src="./figure/two_char_lm_overview.png" width="50%">
 
