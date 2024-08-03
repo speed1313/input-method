@@ -12,7 +12,7 @@ The model predicts the corresponding word ("method") given the previous and curr
 
 - train and evaluate the n-gram model with shakespeare dataset
 ```bash
-$ python3 src/input_method/train-ngram.py
+$ python3 src/input_method/train-ngram.py --ngram 2 --input "My name is Taro. I am a student."
 ```
 
 ### Transformer-based language model
@@ -57,6 +57,27 @@ This program internally convert the prompt to the first-two-char input format an
 
 2-gram model was the best model among all models.
 
+## Toy Paper
+You can access the draft paper about this project [here](./toy_paper.pdf).
+
+## Citation
+```
+@article{sugiura2024input,
+  title   = "First-two-char Input Method with N-gram Model and
+Transformer-based Language Model",
+  author  = "Issa, Sugiura",
+  journal = "github.com",
+  year    = "2024",
+  month   = "Aug",
+  url     = "https://github.com/speed1313/input-method"
+}
+```
+
+
+
+
 ## Reference
 - https://ocw.mit.edu/ans7870/6/6.006/s08/lecturenotes/files/t8.shakespeare.txt
 - https://github.com/speed1313/jax-llm
+- Vaswani et al. "Attention is All You Need." NeurIPS 2017.
+-
