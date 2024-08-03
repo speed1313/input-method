@@ -57,8 +57,8 @@ This program internally convert the prompt to the first-two-char input format an
 
 2-gram model was the best model among all models.
 
-## Toy Paper
-You can access the draft paper about this project [here](./toy_paper.pdf).
+## Draft Paper
+You can access the draft paper about this project [here](./draft_paper.pdf).
 
 ## Citation
 ```
