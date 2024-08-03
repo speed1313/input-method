@@ -56,7 +56,7 @@ def evaluate_ngram_model(model, eval_x, eval_y, n, input_tokenizer, output_token
     return test_accuracy
 
 
-def ngram_model(model, input_text: str = "A two characters input method", n=3) -> str:
+def ngram_model(model, input_tokenizer, output_tokenizer, input_text: str = "A two characters input method", n=3) -> str:
     input_tokenized_text = input_tokenizer.encode(input_text)
     predict = []
     for i in range(len(input_tokenized_text)):
@@ -72,7 +72,8 @@ def ngram_model(model, input_text: str = "A two characters input method", n=3) -
 
 @click.command()
 @click.option("--ngram", type=int, default=10)
-def main(ngram: int):
+@click.option("--input", type=str, default="My name is Taro. I am a student.")
+def main(ngram: int, input: str):
     # Input Vocab: one char or two chars
     text = "A two characters input method"
 
@@ -123,6 +124,12 @@ def main(ngram: int):
         print(f"Train accuracy: {train_accuracy:.3f}")
         print(f"Test accuracy:  {test_accuracy:.3f} ({end-start} sec)")
         print()
+
+    # predict
+    decoded = ngram_model(model, input_tokenizer, output_tokenizer, input_text=input, n=ngram)
+    print("Input:", input)
+    print("Output:", decoded)
+
 
 
 if __name__ == "__main__":
