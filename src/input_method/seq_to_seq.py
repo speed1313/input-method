@@ -8,11 +8,11 @@ import jax.numpy as jnp
 
 @click.command()
 @click.option("--data_name", type=str, default="shakespeare")
-@click.option("--prompt", type=str, default="My name is Taro. I am a student.")
+@click.option("--input", type=str, default="My name is Taro. I am a student.")
 @click.option("--block_size", type=int, default=16)
 def main(
     data_name: str,
-    prompt: str,
+    input: str,
     block_size: int,
 ):
     model_path = f"model/{data_name}/{block_size}"
@@ -37,7 +37,7 @@ def main(
     input_tokenizer = TwoCharTokenizer()
     output_tokenizer = WordTokenizer()
 
-    text = prompt
+    text = input
     encoded_text = jnp.array(input_tokenizer.encode(text)).reshape(1, -1)
     output = []
     for i in range(encoded_text.shape[1]):
