@@ -7,6 +7,12 @@ The model predicts the corresponding word ("method") given the previous and curr
 
 ## How to use
 
+### Data preparation
+- Download the shakespeare dataset
+```bash
+$ wget https://ocw.mit.edu/ans7870/6/6.006/s08/lecturenotes/files/t8.shakespeare.txt -O data/shakespeare/input.txt
+```
+
 
 ### N-gram model
 
@@ -18,8 +24,7 @@ $ python3 src/input_method/train-ngram.py --ngram 2 --input "My name is Taro. I 
 ### Transformer-based language model
 - Train the NanoLM model with shakespeare dataset
 ```bash
-$ python3 src/input_method/train.py --data_name "shakespeare" --batch_size 128 --n_iteration
-s 5000 --n_freq_eval 100 --dropout_rate 0.1 --learning_rate 0.001 --num_layers 8 --embed_size 256  --head_size 32 --num_heads 8 --block_size 4
+$ python3 src/input_method/train.py --data_name "shakespeare" --batch_size 128 --n_iterations 5000 --n_freq_eval 100 --dropout_rate 0.1 --learning_rate 0.001 --num_layers 8 --embed_size 256  --head_size 32 --num_heads 8 --block_size 4
 ```
 
 - Evaluate the NanoLM model with shakespeare dataset
