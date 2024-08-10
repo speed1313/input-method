@@ -10,7 +10,7 @@ The model predicts the corresponding word ("method") given the previous and curr
 ### Data preparation
 - Download the shakespeare dataset
 ```bash
-$ wget https://ocw.mit.edu/ans7870/6/6.006/s08/lecturenotes/files/t8.shakespeare.txt -O data/shakespeare/input.txt
+$ wget https://ocw.mit.edu/ans7870/6/6.006/s08/lecturenotes/files/t8.shakespeare.txt -P data/shakespeare
 ```
 
 
