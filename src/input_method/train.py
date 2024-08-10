@@ -97,7 +97,7 @@ def main(
     print("encoded:", input_tokenized_text[:10])
     print("decoded:", input_tokenizer.decode(input_tokenized_text[:10].tolist()))
 
-    output_tokenizer = WordTokenizer()
+    output_tokenizer = WordTokenizer(data_name=data_name)
     output_tokenized_text = jnp.array(output_tokenizer.encode(text))
     print("text:", text[:100])
     print("encoded:", output_tokenized_text[:10])
@@ -110,6 +110,7 @@ def main(
     train_data = (input_tokenized_text[:split_idx], output_tokenized_text[:split_idx])
     print("train_data", train_data[0].shape, train_data[1].shape)
     print(train_data[0][:10], train_data[1][:10])
+    print("Train Token num:", len(train_data[0]))
     eval_data = (input_tokenized_text[split_idx:], output_tokenized_text[split_idx:])
 
     dynamic_slice_vmap = jax.vmap(jax.lax.dynamic_slice, in_axes=(None, 0, None))

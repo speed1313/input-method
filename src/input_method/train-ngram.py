@@ -30,7 +30,9 @@ def predict_model(model, prefix):
         return None
 
 
-def evaluate_ngram_model(model, eval_x, eval_y, n, input_tokenizer, output_tokenizer, debug=False):
+def evaluate_ngram_model(
+    model, eval_x, eval_y, n, input_tokenizer, output_tokenizer, debug=False
+):
     test_accuracy = 0
     unk_num = 0
     # n window
@@ -46,7 +48,12 @@ def evaluate_ngram_model(model, eval_x, eval_y, n, input_tokenizer, output_token
             if debug:
                 print("prefix:", input_tokenizer.decode(prefix))
                 if predict is not None:
-                    print("predict:", output_tokenizer.decode([predict]), "true:", output_tokenizer.decode([eval_y[i]]))
+                    print(
+                        "predict:",
+                        output_tokenizer.decode([predict]),
+                        "true:",
+                        output_tokenizer.decode([eval_y[i]]),
+                    )
                 else:
                     print("predict: <unk>")
         if predict is None:
@@ -56,7 +63,13 @@ def evaluate_ngram_model(model, eval_x, eval_y, n, input_tokenizer, output_token
     return test_accuracy
 
 
-def ngram_model(model, input_tokenizer, output_tokenizer, input_text: str = "A two characters input method", n=3) -> str:
+def ngram_model(
+    model,
+    input_tokenizer,
+    output_tokenizer,
+    input_text: str = "A two characters input method",
+    n=3,
+) -> str:
     input_tokenized_text = input_tokenizer.encode(input_text)
     predict = []
     for i in range(len(input_tokenized_text)):
@@ -73,7 +86,8 @@ def ngram_model(model, input_tokenizer, output_tokenizer, input_text: str = "A t
 @click.command()
 @click.option("--ngram", type=int, default=10)
 @click.option("--input", type=str, default="My name is Taro. I am a student.")
-def main(ngram: int, input: str):
+@click.option("--data_name", type=str, default="shakespeare")
+def main(ngram: int, input: str, data_name: str):
     # Input Vocab: one char or two chars
     text = "A two characters input method"
 
@@ -83,14 +97,14 @@ def main(ngram: int, input: str):
     print("encoded:", input_tokenized_text)
     print("decoded:", input_tokenizer.decode(input_tokenized_text))
 
-    output_tokenizer = WordTokenizer()
+    output_tokenizer = WordTokenizer(data_name=data_name)
     output_tokenized_text = output_tokenizer.encode(text)
     print("text:", text)
     print("encoded:", output_tokenized_text)
     print("decoded:", output_tokenizer.decode(output_tokenized_text))
 
     # load shakespere.txt
-    with open("data/shakespeare/input.txt") as f:
+    with open(f"data/{data_name}/input.txt") as f:
         text = f.read()
     # text = text.lower()
     text = re.sub(r"[^a-zA-Z]", " ", text)
@@ -117,19 +131,24 @@ def main(ngram: int, input: str):
     # n>=3 で過学習している
     for n in range(1, ngram + 1):
         print("n:", n)
-        train_accuracy = evaluate_ngram_model(model, train_x, train_y, n, input_tokenizer, output_tokenizer)
+        train_accuracy = evaluate_ngram_model(
+            model, train_x, train_y, n, input_tokenizer, output_tokenizer
+        )
         start = time.time()
-        test_accuracy = evaluate_ngram_model(model, eval_x, eval_y, n, input_tokenizer, output_tokenizer)
+        test_accuracy = evaluate_ngram_model(
+            model, eval_x, eval_y, n, input_tokenizer, output_tokenizer
+        )
         end = time.time()
         print(f"Train accuracy: {train_accuracy:.3f}")
         print(f"Test accuracy:  {test_accuracy:.3f} ({end-start} sec)")
         print()
 
     # predict
-    decoded = ngram_model(model, input_tokenizer, output_tokenizer, input_text=input, n=ngram)
+    decoded = ngram_model(
+        model, input_tokenizer, output_tokenizer, input_text=input, n=ngram
+    )
     print("Input:", input)
     print("Output:", decoded)
-
 
 
 if __name__ == "__main__":

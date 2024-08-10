@@ -52,7 +52,7 @@ def main(
     print("encoded:", input_tokenized_text[:10])
     print("decoded:", input_tokenizer.decode(input_tokenized_text[:10].tolist()))
 
-    output_tokenizer = WordTokenizer()
+    output_tokenizer = WordTokenizer(data_name=data_name)
     output_tokenized_text = jnp.array(output_tokenizer.encode(text))
     print("text:", text[:100])
     print("encoded:", output_tokenized_text[:10])

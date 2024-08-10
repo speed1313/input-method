@@ -42,10 +42,10 @@ def input_encode(text):
 
 
 class WordTokenizer:
-    def __init__(self):
+    def __init__(self, data_name="shakespeare"):
         vocab_size = 50304
         # freq = {word: count}
-        with open("data/shakespeare/input.txt") as f:
+        with open(f"data/{data_name}/input.txt") as f:
             text = f.read()
         text = re.sub(r"[^a-zA-Z]", " ", text)
         text = re.sub(r"\s+", " ", text)
@@ -98,7 +98,7 @@ if __name__ == "__main__":
     print(encoded)
     print(decoded)
 
-    word_tokenizer = WordTokenizer()
+    word_tokenizer = WordTokenizer(data_name="shakespeare")
     encoded = word_tokenizer.encode(text)
     decoded = word_tokenizer.decode(encoded)
     print(encoded)

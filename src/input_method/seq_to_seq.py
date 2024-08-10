@@ -35,7 +35,7 @@ def main(
     )
 
     input_tokenizer = TwoCharTokenizer()
-    output_tokenizer = WordTokenizer()
+    output_tokenizer = WordTokenizer(data_name=data_name)
 
     text = input
     encoded_text = jnp.array(input_tokenizer.encode(text)).reshape(1, -1)

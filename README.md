@@ -41,7 +41,16 @@ Output: my name is taken i am a strange
 ```
 This program internally convert the prompt to the first-two-char input format and predict the corresponding word using the trained NanoLM model sequentially.
 
+- Training on Wikitext2
 
+```bash
+python3 src/input_method/prepare_wikitext.py
+```
+
+
+```bash
+$ python3 src/input_method/train.py --data_name "wikitext" --batch_size 1024 --n_iterations 1000 --n_freq_eval 100 --dropout_rate 0.0 --learning_rate 0.001 --num_layers 8 --embed_size 256  --head_size 32 --num_heads 8 --block_size 4
+```
 
 
 ## Features
